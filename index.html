@@ -3,41 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="particles.js"></script>
+    <title>Slideshow</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .slideshow-container {
+            max-width: 600px;
+            position: relative;
+            margin: auto;
+        }
+        .slides {
+            display: none;
+        }
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0;
+            user-select: none;
+        }
+        .next {
+            right: 0;
+        }
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+        .active {
+            background-color: #717171;
+        }
+    </style>
 </head>
 <body>
-    <video autoplay muted loop>
-        <source src="Bg.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <div class="slideshow">
-        <div class="slides">
-            <img src="foto1.JPG" alt="Foto 1">
-            <img src="foto2.JPG" alt="Foto 2">
-        </div>
+
+<div class="slideshow-container">
+
+    <div class="slides fade">
+        <img src="foto1.JPG" alt="Foto 1">
     </div>
-    <div id="gallery">
-        <h2>Gallery</h2>
-        <div class="particle-animation">
-            <!-- Particle animation canvas here -->
-        </div>
-        <div class="countdown-timer">
-            <h3>Countdown Timer</h3>
-            <p id="timer">Countdown: 10</p>
-            <script>
-                let countdown = 10;
-                const timerElement = document.getElementById('timer');
-                setInterval(() => {
-                    if (countdown > 0) {
-                        countdown--;
-                        timerElement.textContent = 'Countdown: ' + countdown;
-                    }
-                }, 1000);
-            </script>
-        </div>
+    <div class="slides fade">
+        <img src="foto2.JPG" alt="Foto 2">
     </div>
-    <script src="main.js"></script>
+
+    <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+    <a class="next" onclick="changeSlide(1)">&#10095;</a>
+</div>
+
+<br>
+<div style="text-align:center">
+    <span class="dot" onclick="currentSlide(1)"></span> 
+    <span class="dot" onclick="currentSlide(2)"></span> 
+</div>
+
+<script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function changeSlide(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("slides");
+        let dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+    }
+</script>
+
 </body>
 </html>
